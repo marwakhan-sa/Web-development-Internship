@@ -4,9 +4,8 @@
 **AI/ML Engineering Intern** @ Developers Hub  
 
 Sharpening hidden skills for a brighter future
-
-Live Portfolio: https://YOUR-USERNAME.github.io/marwa-portfolio/  
-Repository: https://github.com/YOUR-USERNAME/marwa-portfolio
+ 
+Repository: https://github.com/marwakhan-sa/marwa-portfolio
 
 ## About
 
