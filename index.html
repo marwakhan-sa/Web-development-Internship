@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Marwa's To-do list</title>
+    <title>Marwa - Web Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
+        :root {
+          --primary: #5d5fef;
+          --primary-dark: #4a4cd1;
+          --text: #333;
+          --text-light: #555;
+          --bg: #f8f9fc;
+          --card: white;
+        }
+
+        [data-theme="dark"] {
+          --primary: #7b7fff;
+          --primary-dark: #6366f1;
+          --text: #e0e0ff;
+          --text-light: #b0b0ff;
+          --bg: #0f0f1a;
+          --card: #1a1a2e;
+        }
+
         * {
           margin: 0;
           padding: 0;
@@ -12,228 +32,393 @@
         }
 
         body {
-          font-family: Arial, Helvetica, sans-serif;
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          min-height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: flex-start;
-          padding: 40px 20px;
-          color: #333;
+          font-family: system-ui, -apple-system, sans-serif;
+          background: var(--bg);
+          color: var(--text);
+          line-height: 1.6;
+          transition: background 0.4s, color 0.4s;
         }
 
         .container {
-          background: white;
-          width: 100%;
-          max-width: 500px;
-          border-radius: 16px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-          overflow: hidden;
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 0 20px;
         }
 
-        .header {
-          background: #667eea;
+        header {
+          background: linear-gradient(135deg, var(--primary), var(--primary-dark));
           color: white;
-          padding: 30px 25px;
+          padding: 140px 0 100px;
           text-align: center;
         }
 
-        .header h1 {
-          font-size: 2.2rem;
+        header h1 {
+          font-size: 3.8rem;
+          margin-bottom: 12px;
         }
 
-        .input-area {
-          display: flex;
-          padding: 20px;
-          gap: 10px;
+        header .tagline {
+          font-size: 1.5rem;
+          opacity: 0.95;
+          max-width: 720px;
+          margin: 0 auto 35px;
         }
 
-        #taskInput {
-          flex: 1;
-          padding: 14px 18px;
-          border: 1px solid #ddd;
-          border-radius: 10px;
-          font-size: 1.05rem;
+        .btn {
+          display: inline-block;
+          background: white;
+          color: var(--primary-dark);
+          padding: 14px 32px;
+          border-radius: 50px;
+          text-decoration: none;
+          font-weight: 600;
+          margin: 8px;
+          transition: all 0.3s;
         }
 
-        #addBtn {
-          padding: 0 28px;
-          background: #764ba2;
+        .btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+          background: transparent;
+          border: 2px solid white;
           color: white;
-          border: none;
-          border-radius: 10px;
-          font-size: 1.05rem;
-          cursor: pointer;
         }
 
-        #addBtn:hover {
-          background: #5a3d8a;
+        .btn-outline:hover {
+          background: white;
+          color: var(--primary-dark);
         }
 
-        .task-list {
-          padding: 0 20px 20px;
+        nav {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background: rgba(255,255,255,0.9);
+          backdrop-filter: blur(10px);
+          z-index: 1000;
+          border-bottom: 1px solid rgba(0,0,0,0.08);
+          transition: background 0.4s;
         }
 
-        .task {
+        [data-theme="dark"] nav {
+          background: rgba(15,15,26,0.9);
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        nav .container {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          background: #f8f9fa;
-          margin: 12px 0;
-          padding: 16px;
-          border-radius: 10px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-          gap: 12px;
+          padding: 16px 20px;
         }
 
-        .task.completed .task-text {
-          text-decoration: line-through;
-          color: #888;
-          flex: 1;
+        nav a {
+          color: var(--text);
+          text-decoration: none;
+          margin-left: 28px;
+          font-weight: 500;
         }
 
-        .task-text {
-          flex: 1;
-          font-size: 1.1rem;
-          cursor: pointer;
+        nav a:hover {
+          color: var(--primary);
         }
 
-        .task-actions button {
+        .theme-toggle {
           background: none;
           border: none;
           font-size: 1.4rem;
           cursor: pointer;
-          padding: 6px;
+          color: var(--text);
         }
 
-        .edit-btn { color: #3498db; }
-        .delete-btn { color: #e74c3c; }
+        section {
+          padding: 100px 0;
+        }
 
-        .stats {
-          padding: 15px 25px;
-          background: #f8f9fa;
+        h2 {
+          text-align: center;
+          font-size: 2.6rem;
+          margin-bottom: 60px;
+          color: var(--primary);
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 30px;
+        }
+
+        .card {
+          background: var(--card);
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+          transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+          width: 100%;
+          height: 220px;
+          object-fit: cover;
+        }
+
+        .card-content {
+          padding: 24px;
+        }
+
+        .skills {
           display: flex;
-          justify-content: space-between;
-          font-size: 0.95rem;
-          color: #555;
+          flex-wrap: wrap;
+          gap: 14px;
+          justify-content: center;
         }
 
-        .stats button {
-          background: none;
-          border: none;
-          color: #e74c3c;
-          cursor: pointer;
+        .skill {
+          background: rgba(93,95,239,0.1);
+          color: var(--primary);
+          padding: 10px 22px;
+          border-radius: 50px;
+          font-weight: 500;
+        }
+
+        .contact-section {
+          background: var(--primary);
+          color: white;
+          text-align: center;
+        }
+
+        .social-links a {
+          color: white;
+          font-size: 2.2rem;
+          margin: 0 20px;
+          transition: transform 0.3s;
+        }
+
+        .social-links a:hover {
+          transform: translateY(-6px);
+        }
+
+        footer {
+          text-align: center;
+          padding: 40px 0;
+          color: var(--text-light);
+          font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+          header h1 { font-size: 2.8rem; }
+          header { padding: 110px 0 80px; }
+          nav .container { flex-direction: column; gap: 12px; }
+          nav a { margin: 0 16px; }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <h1>My To-Do List</h1>
+<nav>
+    <div class="container">
+        <div>Marwa's Portfolio</div>
+        <div>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
     </div>
+</nav>
 
-    <div class="input-area">
-        <input type="text" id="taskInput" placeholder="Add a new task..." />
-        <button id="addBtn">Add</button>
+<header>
+    <div class="container">
+        <h1>Hello, I'm Marwa Sajjad</h1>
+        <p class="tagline">
+            Web Development Intern @ Arch Technologies<br>
+            Passionate about building clean, modern, and user-friendly websites.
+            My ambition is to become a full-stack developer who creates impactful digital experiences.
+        </p>
+        <a href="#projects" class="btn">Explore My Work</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
     </div>
+</header>
 
-    <div class="task-list" id="taskList"></div>
+<section id="about">
+    <div class="container">
+        <h2>About Me</h2>
 
-    <div class="stats">
-        <span id="itemsLeft">0 items left</span>
-        <button id="clearCompleted">Clear completed</button>
+        <h3 style="text-align:center; margin:40px 0 20px;">Education</h3>
+        <ul style="max-width:760px; margin:0 auto; list-style:none; font-size:1.15rem;">
+            <li style="margin:18px 0;">• [Software Engineering] — [Comsats University Islamabad, Abbotabad campus], [2024-2028]</li>
+            <li style="margin:18px 0;">• [Pre-medical]--[Islamia College Peshawar], [2020-2022]</li>
+        </ul>
     </div>
-</div>
+</section>
+
+<section id="projects" style="background:#f0f2ff;">
+    <div class="container">
+        <h2>Projects</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1555066931-bf19c0fd1085?w=800" alt="IntelliCommand">
+                <div class="card-content">
+                    <h3>IntelliCommand</h3>
+                    <p>A Java-based intelligent command-line application that processes user commands efficiently, supports custom operations, error handling, and modular design for better usability and extensibility.</p>
+                    <p><strong>Role:</strong> Full development – designed, implemented, and tested the complete application</p>
+                    <p><strong>Tech:</strong> Java (Core Java, OOP concepts), possibly command pattern / parsing logic</p>
+                    <p><strong>Outcome:</strong> Created a clean, reusable command processing system. Improved understanding of Java OOP principles, exception handling, and building structured console applications.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1611339555312-e607c8352fd7?w=800" alt="Mini Spotify">
+                <div class="card-content">
+                    <h3>Mini Spotify</h3>
+                    <p>A simplified music streaming application inspired by Spotify, allowing users to manage songs, create playlists, play tracks, and perform CRUD operations on music data with full database integration.</p>
+                    <p><strong>Role:</strong> Full development for Database course project, handled UI, logic, and database connectivity</p>
+                    <p><strong>Tech:</strong> Java (Swing for GUI or console), JDBC for database connectivity, MySQL(as backend database)</p>
+                    <p><strong>Outcome:</strong> Successfully implemented a functional music app with persistent storage. Gained strong hands-on experience in database integration (queries, connections, CRUD), Java GUI basics, and real-world application of DBMS concepts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="skills">
+    <div class="container">
+        <h2>Skills</h2>
+        <div class="skills">
+            <span class="skill">HTML5</span>
+            <span class="skill">CSS3</span>
+            <span class="skill"> Basic JavaScript</span>
+            <span class="skill">Responsive Design</span>
+            <span class="skill">Git & GitHub</span>
+            <span class="skill">LocalStorage / Browser APIs</span>
+
+        </div>
+    </div>
+</section>
+
+<section id="experience">
+    <div class="container">
+        <h2>Experience</h2>
+        <div style="max-width:800px; margin:0 auto;">
+            <h3 style="margin:30px 0 8px;">Web Development Intern – Arch Technologies</h3>
+            <p style="color:var(--text-light);">[February] – Present</p>
+            <ul style="margin:15px 0 30px 24px;">
+                <li>Building responsive web applications using HTML, CSS, and JavaScript</li>
+                <li>Creating personal portfolio and task management app as part of training</li>
+                <li>Learning modern frontend best practices and version control</li>
+            </ul>
+            <h3 style="margin:30px 0 8px;">AI/ML Engineering Intern – Developers Hub</h3>
+            <p style="color:#666;">[January] – Present]</p>
+            <ul style="margin:15px 0 30px 24px; line-height:1.6;">
+                <li>Learning core concepts of artificial intelligence and machine learning</li>
+                <li>Working with Python for data handling and basic model building (pandas, scikit-learn)</li>
+                <li>Building beginner ML projects such as Titanic survival prediction to understand the full ML pipeline</li>
+                <li>Exploring how machine learning models can be integrated with real-world applications</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2>Achievements</h2>
+        <p style="text-align:center; max-width:760px; margin:0 auto 40px; font-size:1.15rem; line-height:1.8;">
+            • Secured Web Development Internship at Arch Technologies (February 2026 – Present)<br>
+            • Joined AI/ML Engineering Internship at Developers Hub to explore machine learning and data projects<br>
+            • Completed personal Java projects: IntelliCommand (intelligent command processor) and Mini Spotify (music app with database connectivity)<br>
+            • Started learning Python, pandas, and scikit-learn for beginner ML tasks (e.g., Titanic Survival Prediction project)<br>
+            • Actively contributing to personal GitHub repositories and improving coding skills daily<br><br>
+
+        </p>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2>Blog / Articles</h2>
+        <p style="text-align:center; font-size:1.15rem;">
+            (Coming soon – will share learning journey & small web dev tips)<br><br>
+
+        </p>
+    </div>
+</section>
+
+
+<section id="contact" style="background:#4a4cd1; color:white; text-align:center; padding:60px 20px;">
+    <div class="container">
+        <h2>Get in Touch</h2>
+        <p style="font-size:1.3rem; margin:30px 0; max-width:700px; margin-left:auto; margin-right:auto;">
+            I'm open to opportunities, feedback, collaborations, or just a friendly chat about web development, AI/ML, or tech in general!
+        </p>
+
+        <div style="margin:40px 0;">
+            <p style="font-size:1.4rem; margin-bottom:15px;">
+                <strong>Email:</strong>
+                <a href="mailto:marwakhansa1@gmail.com" style="color:white; text-decoration:underline; font-weight:bold;">
+                    marwakhansa1@gmail.com
+                </a>
+            </p>
+
+            <p style="font-size:1.4rem;">
+                <strong>LinkedIn:</strong>
+                <a href="https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME"
+                   target="_blank"
+                   style="color:white; text-decoration:underline; font-weight:bold;">
+                    linkedin.com/in/YOUR-LINKEDIN-USERNAME
+                </a>
+            </p>
+        </div>
+
+
+        <div style="margin-top:40px; font-size:2.5rem;">
+            <a href="mailto:marwakhansa1@gmail.com" style="color:white; margin:0 20px; text-decoration:none;">
+                <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/marwa-sajjad-1516ba378" target="_blank" style="color:white; margin:0 20px;">
+                <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© <script>document.write(new Date().getFullYear());</script> Marwa – Built with passion for web development</p>
+    </div>
+</footer>
 
 <script>
-    const taskInput = document.getElementById('taskInput');
-    const addBtn = document.getElementById('addBtn');
-    const taskList = document.getElementById('taskList');
-    const itemsLeft = document.getElementById('itemsLeft');
-    const clearCompletedBtn = document.getElementById('clearCompleted');
+    const toggle = document.querySelector('.theme-toggle');
+    const body = document.body;
 
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-    function saveTasks() {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+    // Check saved preference
+    if (localStorage.getItem('theme') === 'dark') {
+      body.setAttribute('data-theme', 'dark');
+      toggle.innerHTML = '<i class="fas fa-sun"></i>';
     }
 
-    function renderTasks() {
-      taskList.innerHTML = '';
-
-      tasks.forEach((task, index) => {
-        const li = document.createElement('div');
-        li.className = 'task' + (task.completed ? ' completed' : '');
-
-        li.innerHTML = `
-          <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleComplete(${index})" />
-          <span class="task-text" ondblclick="editTask(${index})">${task.text}</span>
-          <div class="task-actions">
-            <button class="edit-btn" onclick="editTask(${index})">✏️</button>
-            <button class="delete-btn" onclick="deleteTask(${index})">🗑️</button>
-          </div>
-        `;
-
-        taskList.appendChild(li);
-      });
-
-      updateStats();
-    }
-
-    function addTask() {
-      const text = taskInput.value.trim();
-      if (!text) return;
-
-      tasks.push({ text, completed: false });
-      saveTasks();
-      taskInput.value = '';
-      renderTasks();
-    }
-
-    window.toggleComplete = function(index) {
-      tasks[index].completed = !tasks[index].completed;
-      saveTasks();
-      renderTasks();
-    };
-
-    window.editTask = function(index) {
-      const newText = prompt("Edit task:", tasks[index].text);
-      if (newText === null) return;
-      const trimmed = newText.trim();
-      if (trimmed) {
-        tasks[index].text = trimmed;
-        saveTasks();
-        renderTasks();
+    toggle.addEventListener('click', () => {
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        toggle.innerHTML = '<i class="fas fa-moon"></i>';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        toggle.innerHTML = '<i class="fas fa-sun"></i>';
       }
-    };
-
-    window.deleteTask = function(index) {
-      if (confirm("Delete this task?")) {
-        tasks.splice(index, 1);
-        saveTasks();
-        renderTasks();
-      }
-    };
-
-    clearCompletedBtn.addEventListener('click', () => {
-      tasks = tasks.filter(t => !t.completed);
-      saveTasks();
-      renderTasks();
     });
-
-    taskInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') addTask();
-    });
-
-    addBtn.addEventListener('click', addTask);
-
-    function updateStats() {
-      const active = tasks.filter(t => !t.completed).length;
-      itemsLeft.textContent = `${active} item${active !== 1 ? 's' : ''} left`;
-    }
-
-    // Load tasks on page load
-    renderTasks();
 </script>
 </body>
 </html>
