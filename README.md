@@ -1,42 +1,39 @@
-# Marwa Sajjad – Personal Portfolio
+# Marwa Sajjad – Web Development Internship Tasks
 
-**Web Development Intern** @ Arch Technologies  
-**AI/ML Engineering Intern** @ Developers Hub  
+**Web Development Intern @ Arch Technologies**  
 
-Sharpening hidden skills for a brighter future
- 
-Repository: https://github.com/marwakhan-sa/marwa-portfolio
+Sharpening skills through hands-on tasks ✨
 
-## About
+Repository: https://github.com/marwakhan-sa/Web-dev-internship-tasks
 
-Single-page portfolio showcasing my introduction, education, projects, skills, internships, achievements, and contact details.  
-Built as Task 1 for Arch Technologies internship (February 2026).
+### Internship Progress
+Completed **3 out of 4 tasks** for the Web Development Internship at Arch Technologies (February 2026 – ongoing)
 
-## Features
-- Responsive design (mobile + desktop)
-- Dark / Light mode toggle
-- Sections: About, Projects, Skills, Experience, Achievements, Contact
+#### Task 1 – Personal Portfolio Website
+Single-page responsive portfolio featuring:  
+- Introduction, Education, Projects, Skills, Internships, Achievements, Contact  
+- Dark/Light mode toggle  
+- Mobile-friendly design  
+Built with HTML5, CSS3, Vanilla JavaScript
 
-## Technologies
-- HTML5
-- CSS3 (custom styles + flex/grid)
-- Vanilla JavaScript (theme toggle)
+#### Task 2 – To-Do List Website
+Interactive to-do list application with:  
+- Add, edit, delete, and mark tasks as complete  
+- LocalStorage persistence (tasks saved in browser)  
+- Simple & responsive UI  
+Built with HTML, CSS, Vanilla JavaScript
 
-## Projects Highlighted
-- **IntelliCommand** – Java command-line processor (OOP, error handling)
-- **Mini Spotify** – Music app with database (Java + JDBC + MySQL)
+#### Task 3 – Custom Music Player
+Responsive music player using YouTube integration:  
+- Playlist sidebar with search & category filtering (Nasheed / Noha / Quran / Reminder)  
+- Play/pause, next/prev, skip ±10s, volume control  
+- Spinning cover animation & live progress bar  
+Built with HTML, CSS, JavaScript + YouTube IFrame API
 
-## Internships
-- **Arch Technologies** – Web Development Intern (Feb 2026 – Present)  
-  → Building responsive web apps & portfolio
-- **Developers Hub** – AI/ML Engineering Intern (Jan 2026 – Present)  
-  → Learning Python, pandas, scikit-learn, beginner ML projects
+### Technologies Used (across tasks)
+- HTML5 / CSS3 (Flex, Grid, Responsive)  
+- Vanilla JavaScript (DOM manipulation, events, localStorage)  
+- YouTube IFrame Player API (Task 3)
 
-## Contact
-- Email: marwakhansa1@gmail.com
-- LinkedIn: https://www.linkedin.com/in/marwa-sajjad-1516ba378
-
-## Submission
-Submitted for Arch Technologies Internship Task 1 (Portfolio)  
-Deadline: 27 February 2026  
-Email: marwakhansa1@gmail.com
+### Contact
+🔗 [LinkedIn](https://www.linkedin.com/in/marwa-sajjad-1516ba378)
