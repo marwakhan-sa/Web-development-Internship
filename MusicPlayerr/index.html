@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+
+<div class="player">
+
+    <div class="top-bar">
+        <span>‹</span>
+        <div>
+            <button id="playlist-toggle" class="playlist-btn">☰ Playlist</button>
+            <span>⋮</span>
+        </div>
+    </div>
+
+    <h2 id="title">Select a song</h2>
+    <p id="artist"></p>
+
+    <img id="cover" src="Images/1.jpg" class="cover" alt="Album cover">
+
+    <div class="progress-section">
+        <span id="currentTime">0:00</span>
+        <input type="range" id="progress" min="0" max="100" value="0">
+        <span id="duration">0:00</span>
+    </div>
+
+    <div class="controls">
+        <button onclick="skipBackward()">⏪</button>
+        <button onclick="prevSong()">⏮</button>
+        <button class="play-btn" id="playBtn">▶</button>
+        <button onclick="nextSong()">⏭</button>
+        <button onclick="skipForward()">⏩</button>
+    </div>
+
+    <div class="volume-section">
+        <span>🔈</span>
+        <input type="range" id="volume" min="0" max="100" value="100">
+        <span>🔊</span>
+    </div>
+
+    <div id="youtube-player" style="display: none;"></div>
+
+    <div class="playlist-sidebar">
+        <button class="close-playlist">✕</button>
+        <h3>Playlist</h3>
+
+        <input type="text" id="playlist-search" placeholder="Search your type...">
+
+        <select id="category-filter">
+            <option value="all">All Categories</option>
+        </select>
+        <ul id="playlist-items"></ul>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
