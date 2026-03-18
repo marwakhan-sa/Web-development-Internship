@@ -3,63 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <title>ConnectHub - Social Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .post { transition: all 0.3s ease; }
+        .post:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.3); }
+    </style>
 </head>
-<body>
+<body class="bg-zinc-950 text-white min-h-screen">
 
-<div class="player">
+<div class="flex h-screen">
 
-    <div class="top-bar">
-        <span>‹</span>
-        <div>
-            <button id="playlist-toggle" class="playlist-btn">☰ Playlist</button>
-            <span>⋮</span>
+    <!-- Sidebar -->
+    <div class="w-72 bg-zinc-900 p-8 flex flex-col">
+        <h1 class="text-4xl font-bold text-violet-500 mb-12">ConnectHub</h1>
+
+        <div class="space-y-8 text-lg">
+            <a href="#" onclick="showPage('feed')" class="flex items-center gap-4 hover:text-violet-400"><i class="fas fa-home w-6"></i> Home</a>
+            <a href="#" onclick="showPage('profile')" class="flex items-center gap-4 hover:text-violet-400"><i class="fas fa-user w-6"></i> Profile</a>
+            <a href="#" onclick="showPage('friends')" class="flex items-center gap-4 hover:text-violet-400"><i class="fas fa-users w-6"></i> Friends</a>
+            <a href="#" onclick="showPage('notifications')" class="flex items-center gap-4 hover:text-violet-400 relative">
+                <i class="fas fa-bell w-6"></i> Notifications
+                <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-xs px-2 rounded-full">0</span>
+            </a>
+        </div>
+
+        <button onclick="createPost()"
+                class="mt-auto bg-violet-600 hover:bg-violet-500 py-4 rounded-2xl font-semibold text-lg">
+            + Create Post
+        </button>
+    </div>
+
+    <!-- Main Area -->
+    <div class="flex-1 overflow-y-auto p-8" id="main-content">
+
+        <!-- Feed Page -->
+        <div id="feed-page">
+            <h2 class="text-3xl font-bold mb-8">Home Feed</h2>
+            <div id="posts-container" class="space-y-8"></div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="hidden">
+            <div class="max-w-2xl mx-auto bg-zinc-900 rounded-3xl p-10 text-center">
+                <img src="https://picsum.photos/id/1011/150" class="w-36 h-36 rounded-full mx-auto border-4 border-violet-500">
+                <h2 class="text-4xl font-bold mt-6">Marwa Sajjad</h2>
+                <p class="text-zinc-400 mt-2">Student | Peshawar</p>
+
+                <div class="flex justify-center gap-12 mt-10">
+                    <div class="text-center"><span class="text-3xl font-bold">10</span><br><span class="text-sm">Posts</span></div>
+                    <div class="text-center"><span class="text-3xl font-bold">50</span><br><span class="text-sm">Followers</span></div>
+                    <div class="text-center"><span class="text-3xl font-bold">60</span><br><span class="text-sm">Following</span></div>
+                </div>
+
+                <button onclick="togglePrivacy()" id="privacy-btn"
+                        class="mt-8 px-8 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">
+                    Privacy: Public
+                </button>
+            </div>
+        </div>
+
+        <!-- Friends Page -->
+        <div id="friends-page" class="hidden max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Friend Requests</h2>
+            <div id="friend-requests" class="space-y-6"></div>
+        </div>
+
+        <!-- Notifications Page -->
+        <div id="notifications-page" class="hidden max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Notifications</h2>
+            <div id="notifications-list" class="space-y-4"></div>
         </div>
     </div>
-
-    <h2 id="title">Select a song</h2>
-    <p id="artist"></p>
-
-    <img id="cover" src="Images/1.jpg" class="cover" alt="Album cover">
-
-    <div class="progress-section">
-        <span id="currentTime">0:00</span>
-        <input type="range" id="progress" min="0" max="100" value="0">
-        <span id="duration">0:00</span>
-    </div>
-
-    <div class="controls">
-        <button onclick="skipBackward()">⏪</button>
-        <button onclick="prevSong()">⏮</button>
-        <button class="play-btn" id="playBtn">▶</button>
-        <button onclick="nextSong()">⏭</button>
-        <button onclick="skipForward()">⏩</button>
-    </div>
-
-    <div class="volume-section">
-        <span>🔈</span>
-        <input type="range" id="volume" min="0" max="100" value="100">
-        <span>🔊</span>
-    </div>
-
-    <div id="youtube-player" style="display: none;"></div>
-
-    <div class="playlist-sidebar">
-        <button class="close-playlist">✕</button>
-        <h3>Playlist</h3>
-
-        <input type="text" id="playlist-search" placeholder="Search your type...">
-
-        <select id="category-filter">
-            <option value="all">All Categories</option>
-        </select>
-        <ul id="playlist-items"></ul>
-    </div>
-
 </div>
 
-<script src="script.js"></script>
+<script>
+    let posts = [
+      { id: 5, user: "Zaydan", avatar: "https://picsum.photos/id/64/45", text: "Just completed my project! Feels so good.", likes: 15, comments: []},
+      { id: 7, user: "Aira", avatar: "https://picsum.photos/id/201/45", text: "Does anybody know anything about the hackathon?", likes: 19, comments: [] },
+      { id: 3, user: "Zack", avatar: "https://picsum.photos/id/29/45", text: "Working on a new project, can't wait to show you guys the final results.", likes: 20, comments: [] },
+      { id: 4, user: "Lorenz", avatar: "https://picsum.photos/id/1005/45", text: "Something exciting is coming up, stay tuned y'all", likes: 30, comments: [] }
+
+    ];
+
+    let friendRequests = [
+      { id: 1, name: "Marjan Khan", mutual: 5 },
+      { id: 2, name: "Momina Khan", mutual: 3 },
+      { id: 3, name: "Hayder", mutual: 1 },
+      { id: 4, name: "Qasim Zia", mutual: 2 },
+      { id: 8, name: "Zaland", mutual: 6 },
+      { id: 6, name: "Zuraiz Bangash", mutual: 7 }
+    ];
+
+    let notifications = [];
+
+    // Render Posts (with image support)
+    function renderPosts() {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
+
+      posts.forEach(post => {
+        const div = document.createElement('div');
+        div.className = 'bg-zinc-900 rounded-3xl p-8 post';
+        div.innerHTML = `
+          <div class="flex items-center gap-4">
+            <img src="${post.avatar}" class="w-11 h-11 rounded-full">
+            <div><strong class="text-lg">${post.user}</strong></div>
+          </div>
+          <p class="my-6 text-lg">${post.text}</p>
+          ${post.image ? `<img src="${post.image}" class="rounded-2xl w-full mb-4">` : ''}
+
+          <div class="flex gap-8 text-zinc-400">
+            <button onclick="likePost(${post.id})" class="flex items-center gap-2 hover:text-red-500">
+              <i class="fas fa-heart"></i> ${post.likes}
+            </button>
+            <button onclick="focusComment(${post.id})" class="flex items-center gap-2">
+              <i class="fas fa-comment"></i> Comment
+            </button>
+          </div>
+
+          <div class="mt-6 pt-6 border-t border-zinc-800">
+            ${post.comments.map(c => `<p class="text-sm mb-2"><strong>${c.user}:</strong> ${c.text}</p>`).join('')}
+            <input type="text" id="comment-${post.id}" placeholder="Write a comment..."
+                   class="mt-4 w-full bg-zinc-800 rounded-2xl px-5 py-3 text-sm focus:outline-none"
+                   onkeypress="if(event.key === 'Enter') addComment(${post.id})">
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function likePost(id) {
+      const post = posts.find(p => p.id === id);
+      post.likes++;
+      renderPosts();
+      addNotification("Someone liked your post");
+    }
+
+    function focusComment(id) {
+      document.getElementById(`comment-${id}`).focus();
+    }
+
+    function addComment(id) {
+      const input = document.getElementById(`comment-${id}`);
+      if (!input.value.trim()) return;
+      const post = posts.find(p => p.id === id);
+      post.comments.push({ user: "You", text: input.value });
+      input.value = '';
+      renderPosts();
+      addNotification("New comment received");
+    }
+
+    // Create Post with Image Upload (Multimedia)
+    function createPost() {
+      const text = prompt("What's on your mind?");
+      if (!text) return;
+
+      const imageUrl = prompt("Enter image URL (or leave blank):", "https://picsum.photos/id/237/600");
+
+      posts.unshift({
+        id: Date.now(),
+        user: "Marwa Sajjad",
+        avatar: "https://picsum.photos/id/1013/45",
+        text: text,
+        likes: 0,
+        comments: [],
+        image: imageUrl || null
+      });
+
+      renderPosts();
+      addNotification("Your post has been uploaded");
+    }
+
+    function renderFriendRequests() {
+      const container = document.getElementById('friend-requests');
+      container.innerHTML = friendRequests.map(fr => `
+        <div class="bg-zinc-900 p-6 rounded-3xl flex justify-between items-center">
+          <div><strong>${fr.name}</strong><br><span class="text-sm text-zinc-400">${fr.mutual} mutual friends</span></div>
+          <button onclick="acceptFriend(${fr.id})" class="bg-green-600 px-8 py-3 rounded-2xl">Accept</button>
+        </div>
+      `).join('');
+    }
+
+    function acceptFriend(id) {
+      friendRequests = friendRequests.filter(r => r.id !== id);
+      renderFriendRequests();
+      addNotification("Friend request accepted");
+    }
+
+    function addNotification(msg) {
+      notifications.unshift({ text: msg, time: "Just now" });
+      renderNotifications();
+      document.getElementById('notif-badge').textContent = notifications.length;
+    }
+
+    function renderNotifications() {
+      const container = document.getElementById('notifications-list');
+      container.innerHTML = notifications.map(n => `
+        <div class="bg-zinc-900 p-6 rounded-3xl">${n.text} <span class="text-xs text-zinc-500 float-right">${n.time}</span></div>
+      `).join('');
+    }
+
+    function showPage(page) {
+      document.querySelectorAll('#main-content > div').forEach(d => d.classList.add('hidden'));
+      document.getElementById(page + '-page').classList.remove('hidden');
+    }
+
+    function togglePrivacy() {
+      const btn = document.getElementById('privacy-btn');
+      btn.textContent = btn.textContent === "Privacy: Public" ? "Privacy: Private" : "Privacy: Public";
+    }
+
+    // Initialize
+    renderPosts();
+    renderFriendRequests();
+    renderNotifications();
+    showPage('feed');
+</script>
 </body>
 </html>
